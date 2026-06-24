@@ -54,11 +54,6 @@ const projects = [
 const Portfolio: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const nextProject = () =>
-    setActiveIndex((prev) => (prev + 1) % projects.length);
-  const prevProject = () =>
-    setActiveIndex((prev) => (prev === 0 ? projects.length - 1 : prev - 1));
-
   return (
     <div className="min-h-screen bg-gray-950 text-gray-200 font-sans selection:bg-blue-900 selection:text-white pb-12">
       {/* Header */}
