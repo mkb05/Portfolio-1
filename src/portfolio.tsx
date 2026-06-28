@@ -49,6 +49,19 @@ const projects = [
     tags: ["Node.js", "AST Parsing", "Xenova BGE-M3", "Azure DevOps API"],
     github: "#",
   },
+  {
+    title: "Swiftmart E-Commerce Platform",
+    description:
+      "A scalable, event-driven e-commerce platform built on a microservices architecture focusing on high availability and asynchronous processing.",
+    details: [
+      "Architected a database-per-service microservices ecosystem with dedicated User, Product, Inventory, Order, Payment, and API Gateway services.",
+      "Engineered asynchronous event-driven communication for order processing using Apache Kafka to ensure eventual consistency and fault tolerance.",
+      "Implemented centralized API routing, JWT-based authentication, and optimized trending product retrieval using Redis ZSET caching.",
+      "Developed a responsive frontend using Angular and integrated MySQL for persistent, distributed data storage to improve scalability and maintainability.",
+    ],
+    tags: ["Spring Boot", "Kafka", "Redis", "Angular", "Microservices"],
+    github: "https://github.com/mkb05/SwiftMart",
+  },
 ];
 
 const Portfolio: React.FC = () => {
@@ -176,18 +189,32 @@ const Portfolio: React.FC = () => {
             <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight">
               {projects[activeIndex].title}
             </h3>
-            <a
-              href={projects[activeIndex].github}
-              target="_blank"
-              rel="noreferrer"
-              className="flex-shrink-0 flex items-center gap-2 text-sm font-mono text-blue-400 hover:text-blue-300 bg-blue-500/10 px-4 py-2 rounded-full border border-blue-500/20 transition-colors"
-            >
-              <Icon
-                d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"
-                size={14}
-              />{" "}
-              View Code
-            </a>
+
+            {projects[activeIndex].github !== "#" ? (
+              <a
+                href={projects[activeIndex].github}
+                target="_blank"
+                rel="noreferrer"
+                className="flex-shrink-0 flex items-center gap-2 text-sm font-mono text-blue-400 hover:text-blue-300 bg-blue-500/10 px-4 py-2 rounded-full border border-blue-500/20 transition-colors"
+              >
+                <Icon
+                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"
+                  size={14}
+                />{" "}
+                View Code
+              </a>
+            ) : (
+              <span
+                className="flex-shrink-0 flex items-center gap-2 text-sm font-mono text-gray-500 bg-gray-800/40 px-4 py-2 rounded-full border border-gray-700/50 cursor-help"
+                title="Source code is confidential/proprietary to the company"
+              >
+                <Icon
+                  d="M7 11V7a5 5 0 0 1 10 0v4M7 11h10a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z"
+                  size={14}
+                />{" "}
+                Proprietary
+              </span>
+            )}
           </div>
 
           <p className="text-gray-400 mb-8 text-lg">
