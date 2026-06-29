@@ -24,7 +24,7 @@ const Icon: React.FC<{ d: string; className?: string; size?: number }> = ({
 
 const projects = [
   {
-    title: "Enterprise Multi-Agent CRAG System",
+    title: "Veris Engine",
     description:
       "A production-grade Corrective Retrieval-Augmented Generation (CRAG) system designed to eliminate LLM hallucinations in enterprise environments.",
     details: [
@@ -33,8 +33,15 @@ const projects = [
       "Developed a Hybrid Retrieval system combining ChromaDB (semantic vector search) with BM25 (lexical search) for high-precision document recall.",
       "Ensured multi-tenant data security by engineering session-strict isolation, dynamically creating independent vector indices per user session.",
     ],
-    tags: ["FastAPI", "LangGraph", "Ollama", "ChromaDB", "SQLite"],
+    tags: ["FastAPI", "LangGraph", "Ollama", "ChromaDB", "SQLite", "React"],
     github: "https://github.com/mkb05/FastAPI-Hybrid-RAG-Engine.git",
+    demo: "https://veris-engine-8s83ow9t6-manojkumars-projects-3a02fe42.vercel.app/",
+    images: [
+      "/Landing-page.png",
+      "/AI response bubble.png",
+      "/Connversation.png",
+      "/Preview mode.png",
+    ],
   },
   {
     title: "AI-Powered Bug Analysis Agent",
@@ -48,6 +55,8 @@ const projects = [
     ],
     tags: ["Node.js", "AST Parsing", "Xenova BGE-M3", "Azure DevOps API"],
     github: "#",
+    demo: null,
+    images: [],
   },
   {
     title: "Swiftmart E-Commerce Platform",
@@ -61,31 +70,55 @@ const projects = [
     ],
     tags: ["Spring Boot", "Kafka", "Redis", "Angular", "Microservices"],
     github: "https://github.com/mkb05/SwiftMart",
+    demo: null,
+    images: [],
   },
 ];
 
 const Portfolio: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // Lightbox State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const openLightbox = () => {
+    setCurrentImageIndex(0);
+    setIsModalOpen(true);
+  };
+
+  const nextImage = () => {
+    setCurrentImageIndex(
+      (prev) => (prev + 1) % projects[activeIndex].images.length,
+    );
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? projects[activeIndex].images.length - 1 : prev - 1,
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gray-950 text-gray-200 font-sans selection:bg-blue-900 selection:text-white pb-12">
       {/* Header */}
 
+      {/* TSX-Safe Custom Animation Styles */}
       <style
         dangerouslySetInnerHTML={{
           __html: `
-    @keyframes fade-in { 
-      from { opacity: 0; transform: translateY(15px); } 
-      to { opacity: 1; transform: translateY(0); } 
-    }
-    .animate-fade-in { 
-      animation: fade-in 0.8s ease-out forwards; 
-      opacity: 0; 
-    }
-    .delay-100 { animation-delay: 0.1s; }
-    .delay-200 { animation-delay: 0.2s; }
-    .delay-300 { animation-delay: 0.3s; }
-  `,
+        @keyframes fade-in { 
+          from { opacity: 0; transform: translateY(15px); } 
+          to { opacity: 1; transform: translateY(0); } 
+        }
+        .animate-fade-in { 
+          animation: fade-in 0.8s ease-out forwards; 
+          opacity: 0; 
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+      `,
         }}
       />
 
@@ -184,44 +217,79 @@ const Portfolio: React.FC = () => {
         </div>
 
         {/* Project Card */}
-        <div className="bg-gradient-to-br from-gray-900 to-gray-950 border border-gray-800 p-8 md:p-10 rounded-2xl hover:border-gray-600 transition-all duration-500 shadow-xl">
-          <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
+        <div className="bg-gradient-to-br from-gray-900 to-gray-950 border border-gray-800 p-8 md:p-10 rounded-2xl hover:border-gray-600 transition-all duration-500 shadow-xl relative overflow-hidden">
+          {/* Project Header & Dynamic Action Buttons */}
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-4 mb-6 relative z-10">
             <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight">
               {projects[activeIndex].title}
             </h3>
 
-            {projects[activeIndex].github !== "#" ? (
-              <a
-                href={projects[activeIndex].github}
-                target="_blank"
-                rel="noreferrer"
-                className="flex-shrink-0 flex items-center gap-2 text-sm font-mono text-blue-400 hover:text-blue-300 bg-blue-500/10 px-4 py-2 rounded-full border border-blue-500/20 transition-colors"
-              >
-                <Icon
-                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"
-                  size={14}
-                />{" "}
-                View Code
-              </a>
-            ) : (
-              <span
-                className="flex-shrink-0 flex items-center gap-2 text-sm font-mono text-gray-500 bg-gray-800/40 px-4 py-2 rounded-full border border-gray-700/50 cursor-help"
-                title="Source code is confidential/proprietary to the company"
-              >
-                <Icon
-                  d="M7 11V7a5 5 0 0 1 10 0v4M7 11h10a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z"
-                  size={14}
-                />{" "}
-                Proprietary
-              </span>
-            )}
+            <div className="flex flex-wrap items-center gap-2 mt-2 lg:mt-0">
+              {/* Conditional Source Code / Proprietary Button */}
+              {projects[activeIndex].github === "#" ? (
+                <span
+                  className="flex-shrink-0 flex items-center gap-2 text-sm font-mono text-gray-500 bg-gray-900 px-4 py-2 rounded-full border border-gray-800 cursor-not-allowed"
+                  title="Source code is proprietary"
+                >
+                  <Icon
+                    d="M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z M7 11V7a5 5 0 0 1 10 0v4"
+                    size={14}
+                  />{" "}
+                  Proprietary
+                </span>
+              ) : (
+                <a
+                  href={projects[activeIndex].github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex-shrink-0 flex items-center gap-2 text-sm font-mono text-gray-300 hover:text-white bg-gray-900 hover:bg-gray-800 px-4 py-2 rounded-full border border-gray-700 transition-colors"
+                >
+                  <Icon
+                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                    size={14}
+                  />{" "}
+                  Source Code
+                </a>
+              )}
+
+              {/* Conditional Demo Link */}
+              {projects[activeIndex].demo && (
+                <a
+                  href={projects[activeIndex].demo}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex-shrink-0 flex items-center gap-2 text-sm font-mono text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 px-4 py-2 rounded-full border border-blue-500/30 transition-colors"
+                >
+                  <Icon
+                    d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"
+                    size={14}
+                  />{" "}
+                  Live Demo
+                </a>
+              )}
+
+              {/* Conditional View UI Gallery Button */}
+              {projects[activeIndex].images &&
+                projects[activeIndex].images.length > 0 && (
+                  <button
+                    onClick={openLightbox}
+                    className="flex-shrink-0 flex items-center gap-2 text-sm font-mono text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 px-4 py-2 rounded-full border border-emerald-500/30 transition-colors"
+                  >
+                    <Icon
+                      d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
+                      size={14}
+                    />{" "}
+                    View UI
+                  </button>
+                )}
+            </div>
           </div>
 
-          <p className="text-gray-400 mb-8 text-lg">
+          <p className="text-gray-400 mb-8 text-lg relative z-10">
             {projects[activeIndex].description}
           </p>
 
-          <ul className="space-y-4 mb-10 text-gray-300">
+          <ul className="space-y-4 mb-10 text-gray-300 relative z-10">
             {projects[activeIndex].details.map((detail, i) => (
               <li key={i} className="flex gap-3 items-start">
                 <Icon
@@ -234,7 +302,7 @@ const Portfolio: React.FC = () => {
             ))}
           </ul>
 
-          <div className="flex flex-wrap gap-2 pt-6 border-t border-gray-800/50">
+          <div className="flex flex-wrap gap-2 pt-6 border-t border-gray-800/50 relative z-10">
             {projects[activeIndex].tags.map((tag, i) => (
               <span
                 key={i}
@@ -364,6 +432,57 @@ const Portfolio: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Fullscreen UI Image Lightbox Modal */}
+      {isModalOpen && projects[activeIndex].images && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-950/95 backdrop-blur-md p-4 md:p-12 animate-fade-in">
+          {/* Close Button */}
+          <button
+            onClick={() => setIsModalOpen(false)}
+            className="absolute top-6 right-6 text-gray-400 hover:text-white bg-gray-900 p-2 rounded-full transition-colors z-50"
+          >
+            <Icon d="M18 6L6 18 M6 6l12 12" size={24} />
+          </button>
+
+          <div className="relative w-full h-full flex flex-col items-center justify-center">
+            {/* Main Image */}
+            <img
+              src={projects[activeIndex].images[currentImageIndex]}
+              alt={`${projects[activeIndex].title} UI Screenshot`}
+              className="max-w-full max-h-full object-contain rounded-lg border border-gray-800 shadow-2xl"
+            />
+
+            {/* Navigation Controls */}
+            {projects[activeIndex].images.length > 1 && (
+              <>
+                <button
+                  onClick={prevImage}
+                  className="absolute left-0 md:left-8 top-1/2 -translate-y-1/2 p-3 bg-gray-900/80 hover:bg-gray-800 text-white rounded-full transition-colors border border-gray-700"
+                >
+                  <Icon d="m15 18-6-6 6-6" size={24} />
+                </button>
+                <button
+                  onClick={nextImage}
+                  className="absolute right-0 md:right-8 top-1/2 -translate-y-1/2 p-3 bg-gray-900/80 hover:bg-gray-800 text-white rounded-full transition-colors border border-gray-700"
+                >
+                  <Icon d="m9 18 6-6-6-6" size={24} />
+                </button>
+
+                {/* Progress Indicators */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                  {projects[activeIndex].images.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentImageIndex(i)}
+                      className={`w-2.5 h-2.5 rounded-full transition-colors ${i === currentImageIndex ? "bg-emerald-500" : "bg-gray-700 hover:bg-gray-500"}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
