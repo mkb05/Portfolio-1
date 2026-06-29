@@ -228,14 +228,47 @@ const Portfolio: React.FC = () => {
 
   const [expVisible, setExpVisible] = useState(false);
   const expRef = useRef<HTMLElement>(null);
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const chatScrollRef = useRef<HTMLDivElement>(null);
 
-  // --- NEW: Ambient Occlusion ---
-  const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
-  const [systemLoad] = useState(30);
+  // Auto-scroll chat to bottom when new messages arrive or chat opens
+  useEffect(() => {
+    if (chatScrollRef.current) {
+      chatScrollRef.current.scrollTo({
+        top: chatScrollRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [chatHistory, chatOpen]);
+
+  // --- : Performant Magnetic Cursor State ---
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
+      if (cursorRef.current) {
+        // Directly manipulate DOM to avoid 60fps React re-renders
+        cursorRef.current.style.left = `${e.clientX}px`;
+        cursorRef.current.style.top = `${e.clientY}px`;
+
+        const target = e.target as HTMLElement;
+        // Safe check for elements to ensure we don't crash on SVGs
+        const isInteractive =
+          target && typeof target.closest === "function"
+            ? target.closest("a, button, input")
+            : null;
+
+        if (isInteractive) {
+          cursorRef.current.style.width = "36px";
+          cursorRef.current.style.height = "36px";
+          cursorRef.current.style.backgroundColor = "transparent";
+          cursorRef.current.style.border = "2px solid #22d3ee";
+        } else {
+          cursorRef.current.style.width = "8px";
+          cursorRef.current.style.height = "8px";
+          cursorRef.current.style.backgroundColor = "white";
+          cursorRef.current.style.border = "none";
+        }
+      }
     };
     window.addEventListener("mousemove", handleMouseMove);
 
@@ -290,7 +323,7 @@ const Portfolio: React.FC = () => {
   };
 
   const AI_PROMPTS = [
-    "What did Manoj do at Accenture?",
+    "Tell me about his professional work experience.",
     "What are his core technical skills?",
     "Tell me about his projects.",
     "Is he open for hire?",
@@ -303,9 +336,9 @@ const Portfolio: React.FC = () => {
     setTimeout(() => {
       let aiRes = "";
 
-      if (prompt.includes("Accenture")) {
+      if (prompt.includes("experienc")) {
         aiRes =
-          "At Accenture, Manoj spearheaded the development of an AI-Powered Contest Management Ecosystem. He engineered a conversational Angular interface for idea discovery, implemented a complex RBAC workflow  for different user roles (Evaluator, Moderator, Admin), and authored an MCP server that automates frontend scaffolding by querying Figma design files directly via API.";
+          "Manojkumar has around 1.8 years of professional experience as a Software Engineer at Accenture, where he has worked on both enterprise application development and AI-powered solutions. He has built a chatbot-driven contest management platform that enables users to query contest information, submit ideas, and participate in innovation programs through a conversational interface, while also implementing evaluator and moderator workflows for reviewing, assigning, and managing idea submissions. In addition, he developed an AI-powered bug analysis platform using LangChain, LangGraph, MCP, and a RAG pipeline that integrates with Azure DevOps to analyze bug reports, identify impacted components, recommend fixes, and generate test scenarios. He also built a Figma-to-Code MCP server to streamline frontend development. Before joining Accenture, he worked as a Graduate Engineer Trainee at Blaosys Technologies, where he developed web applications using PHP (Laravel), JavaScript, MySQL, HTML, and CSS, giving him a strong foundation in full-stack software development.";
       } else if (prompt.includes("skills")) {
         aiRes =
           "Manoj's technical stack is geared toward enterprise AI and scalable systems. Key skills include: Python (FastAPI),Langchain, LangGraph, and ChromaDB for AI orchestration; Kafka and Redis for event-driven microservices; and Angular/React for frontend development.";
@@ -345,13 +378,18 @@ const Portfolio: React.FC = () => {
       {/* Particle Background Layer */}
       {!devMode && <ParticleBackground />}
 
-      {/* ---  Ambient Flashlight Effect --- */}
+      {/* --- FIXED: Magnetic Cursor Visualizer --- */}
       {!devMode && (
         <div
-          className="fixed inset-0 pointer-events-none z-[5] transition-all duration-700 ease-out"
+          ref={cursorRef}
+          className="fixed z-[9999] pointer-events-none rounded-full transition-all duration-200 ease-out flex items-center justify-center shadow-[0_0_10px_rgba(34,211,238,0.5)]"
           style={{
-            // The size of the circle now reacts to systemLoad
-            background: `radial-gradient(circle ${300 + systemLoad * 4}px at ${mousePos.x}px ${mousePos.y}px, rgba(192, 132, 252, 0.05), transparent 80%)`,
+            left: "-1000px",
+            top: "-1000px",
+            width: "8px",
+            height: "8px",
+            backgroundColor: "white",
+            transform: "translate(-50%, -50%)",
           }}
         />
       )}
@@ -418,6 +456,9 @@ const Portfolio: React.FC = () => {
           <style
             dangerouslySetInnerHTML={{
               __html: `
+            /* Hide Default Cursor when not in dev mode to showcase Magnetic Anchor */
+            ${!devMode ? "* { cursor: none !important; }" : ""}
+            
             @keyframes fade-in { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
             .animate-fade-in { animation: fade-in 0.8s ease-out forwards; opacity: 0; }
             .delay-100 { animation-delay: 0.1s; }
@@ -433,6 +474,12 @@ const Portfolio: React.FC = () => {
               40% { transform: translate(-2px, -2px); text-shadow: -2px 0 #3b82f6, 2px 0 #f43f5e; }
               100% { transform: translate(0); text-shadow: 0 0 0 transparent; }
             }
+
+            /* --- Custom Dark Scrollbar for Chat Box --- */
+            .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+            .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+            .custom-scrollbar::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #4b5563; }
           `,
             }}
           />
@@ -823,7 +870,10 @@ const Portfolio: React.FC = () => {
                 ✕
               </button>
             </div>
-            <div className="flex-1 p-4 overflow-y-auto space-y-4 text-sm bg-gray-950">
+            <div
+              ref={chatScrollRef}
+              className="flex-1 p-4 overflow-y-auto space-y-4 text-sm bg-gray-950 custom-scrollbar"
+            >
               {chatHistory.map((c, i) => (
                 <div
                   key={i}
@@ -838,7 +888,7 @@ const Portfolio: React.FC = () => {
               ))}
             </div>
             {/* Quick Prompt Selection Area - Now Scrollable */}
-            <div className="p-3 bg-gray-800 border-t border-gray-700 max-h-30 overflow-y-auto scrollbar-thin">
+            <div className="p-3 bg-gray-800 border-t border-gray-700 max-h-30 overflow-y-auto custom-scrollbar">
               <div className="grid grid-cols-1 gap-2">
                 {AI_PROMPTS.map((p, i) => (
                   <button
