@@ -109,7 +109,7 @@ const StreamingText: React.FC<{ text: string; isVisible: boolean }> = ({
       const timeout = setTimeout(() => {
         setDisplayedText((prev) => prev + text[index]);
         setIndex(index + 1);
-      }, 15);
+      }, 40);
       return () => clearTimeout(timeout);
     }
   }, [index, isVisible, text]);
@@ -229,6 +229,21 @@ const Portfolio: React.FC = () => {
   const [expVisible, setExpVisible] = useState(false);
   const expRef = useRef<HTMLElement>(null);
 
+  // --- NEW: Ambient Occlusion ---
+  const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
+  const [systemLoad, setSystemLoad] = useState(30);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
   // Scroll handler for LLM Streaming
   useEffect(() => {
     const handleScroll = () => {
@@ -330,6 +345,17 @@ const Portfolio: React.FC = () => {
       {/* Particle Background Layer */}
       {!devMode && <ParticleBackground />}
 
+      {/* ---  Ambient Flashlight Effect --- */}
+      {!devMode && (
+        <div
+          className="fixed inset-0 pointer-events-none z-[5] transition-all duration-700 ease-out"
+          style={{
+            // The size of the circle now reacts to systemLoad
+            background: `radial-gradient(circle ${300 + systemLoad * 4}px at ${mousePos.x}px ${mousePos.y}px, rgba(192, 132, 252, 0.05), transparent 80%)`,
+          }}
+        />
+      )}
+
       {/* Dev Mode Toggle (Top Right) */}
       <div className="fixed top-6 right-6 z-50 pointer-events-none">
         <button
@@ -397,6 +423,16 @@ const Portfolio: React.FC = () => {
             .delay-100 { animation-delay: 0.1s; }
             .delay-200 { animation-delay: 0.2s; }
             .delay-300 { animation-delay: 0.3s; }
+
+            /* ---  Neural Glitch Effect --- */
+            .neural-glitch { transition: all 0.2s ease; cursor: crosshair; }
+            .neural-glitch:hover { animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; }
+            @keyframes glitch { 
+              0% { transform: translate(0); text-shadow: 0 0 0 transparent; }
+              20% { transform: translate(-2px, 2px); text-shadow: 2px 0 #3b82f6, -2px 0 #f43f5e; }
+              40% { transform: translate(-2px, -2px); text-shadow: -2px 0 #3b82f6, 2px 0 #f43f5e; }
+              100% { transform: translate(0); text-shadow: 0 0 0 transparent; }
+            }
           `,
             }}
           />
@@ -412,7 +448,7 @@ const Portfolio: React.FC = () => {
                 Open To Work
               </span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight  neural-glitch w-maxneural-glitch w-max">
               Manojkumar B
             </h1>
             <p className="text-xl md:text-2xl text-gray-400 max-w-3xl leading-relaxed mb-10">
@@ -428,7 +464,16 @@ const Portfolio: React.FC = () => {
             <div className="flex flex-wrap gap-4 font-mono text-sm">
               <a
                 href="mailto:mkbellerimath@gmail.com"
-                className="px-5 py-2.5 bg-blue-600 text-white hover:bg-blue-500 rounded transition-colors shadow-lg shadow-blue-900/20"
+                className="px-5 py-2.5 bg-blue-600 text-white hover:bg-blue-500 rounded transition-colors shadow-lg shadow-blue-900/20 transition-transform duration-200 ease-outtransition-transform duration-200 ease-out"
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = e.clientX - rect.left - rect.width / 2;
+                  const y = e.clientY - rect.top - rect.height / 2;
+                  e.currentTarget.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = `translate(0px, 0px)`;
+                }}
               >
                 mkbellerimath@gmail.com
               </a>
@@ -436,7 +481,16 @@ const Portfolio: React.FC = () => {
                 href="https://github.com/mkb05"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-2 px-5 py-2.5 bg-gray-900 border border-gray-700 hover:border-white hover:bg-gray-800 rounded transition-all text-gray-300"
+                className="flex items-center gap-2 px-5 py-2.5 bg-gray-900 border border-gray-700 hover:border-white hover:bg-gray-800 rounded transition-all text-gray-300 transition-transform duration-200 ease-out"
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = e.clientX - rect.left - rect.width / 2;
+                  const y = e.clientY - rect.top - rect.height / 2;
+                  e.currentTarget.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = `translate(0px, 0px)`;
+                }}
               >
                 <Icon
                   d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
@@ -448,7 +502,16 @@ const Portfolio: React.FC = () => {
                 href="https://www.linkedin.com/in/mkb05/"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-2 px-5 py-2.5 bg-[#0077b5] text-white hover:bg-[#005582] rounded transition-all shadow-lg shadow-blue-900/20"
+                className="flex items-center gap-2 px-5 py-2.5 bg-[#0077b5] text-white hover:bg-[#005582] rounded transition-all shadow-lg shadow-blue-900/20 transition-transform duration-200 ease-out"
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = e.clientX - rect.left - rect.width / 2;
+                  const y = e.clientY - rect.top - rect.height / 2;
+                  e.currentTarget.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = `translate(0px, 0px)`;
+                }}
               >
                 <Icon
                   d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z M2 9h4v12H2z M2 4a2 2 0 1 0 4 0a2 2 0 1 0-4 0"
