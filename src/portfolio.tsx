@@ -231,7 +231,7 @@ const Portfolio: React.FC = () => {
 
   // --- NEW: Ambient Occlusion ---
   const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
-  const [systemLoad, setSystemLoad] = useState(30);
+  const [systemLoad] = useState(30);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
