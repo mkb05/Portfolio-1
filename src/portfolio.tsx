@@ -216,7 +216,7 @@ const Portfolio: React.FC = () => {
   );
 
   const [chatOpen, setChatOpen] = useState(false);
-  const [chatInput, setChatInput] = useState("");
+
   const [chatHistory, setChatHistory] = useState<
     { role: "user" | "ai"; msg: string }[]
   >([
@@ -282,7 +282,7 @@ const Portfolio: React.FC = () => {
   ];
 
   // Chatbot Logic
-  const handlePromptClick = (prompt) => {
+  const handlePromptClick = (prompt: any) => {
     setChatHistory((prev) => [...prev, { role: "user", msg: prompt }]);
 
     setTimeout(() => {
