@@ -157,8 +157,17 @@ const projects = [
       "Implemented a 'Document Grader' agent (LLM-as-a-judge) that validates context relevance before generation, halting processes if hallucinations are detected.",
       "Developed a Hybrid Retrieval system combining ChromaDB (semantic vector search) with BM25 (lexical search) for high-precision document recall.",
       "Ensured multi-tenant data security by engineering session-strict isolation, dynamically creating independent vector indices per user session.",
+      "Packaged the React web interface into a standalone, cross-platform desktop application using Electron for native OS integration.",
     ],
-    tags: ["FastAPI", "LangGraph", "Ollama", "ChromaDB", "SQLite", "React"],
+    tags: [
+      "Electron",
+      "FastAPI",
+      "LangGraph",
+      "Ollama",
+      "ChromaDB",
+      "SQLite",
+      "React",
+    ],
     github: "https://github.com/mkb05/FastAPI-Hybrid-RAG-Engine.git",
     demo: "https://veris-engine-8s83ow9t6-manojkumars-projects-3a02fe42.vercel.app/",
     images: [
