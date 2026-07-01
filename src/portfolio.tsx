@@ -538,7 +538,7 @@ const Portfolio: React.FC = () => {
               50% { transform: translateY(-10px); }
               100% { transform: translateY(0px); }
             }
-            .animate-floating { animation: floating 4s ease-in-out infinite; }
+            .animate-floating { animation: floating 3s ease-in-out infinite; }
 
             /* --- Custom Dark Scrollbar for Chat Box --- */
             .custom-scrollbar::-webkit-scrollbar { width: 6px; }
