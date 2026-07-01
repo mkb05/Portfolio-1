@@ -147,6 +147,54 @@ const Icon: React.FC<{ d: string; className?: string; size?: number }> = ({
   </svg>
 );
 
+const skillsList = [
+  {
+    name: "Python",
+    icon: "M16 18l6-6-6-6M8 6l-6 6 6 6",
+    color: "text-blue-400",
+  },
+  {
+    name: "LangGraph & RAG",
+    icon: "M18 8A3 3 0 1 0 18 2a3 3 0 0 0 0 6zm-12 7A3 3 0 1 0 6 9a3 3 0 0 0 0 6zm12 7A3 3 0 1 0 18 16a3 3 0 0 0 0 6z M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98",
+    color: "text-emerald-400",
+  },
+  {
+    name: "React & Angular",
+    icon: "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5",
+    color: "text-cyan-400",
+  },
+  {
+    name: "FastAPI & Node.js",
+    icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z",
+    color: "text-yellow-400",
+  },
+  {
+    name: "Kafka & Redis",
+    icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z M3.27 6.96L12 12.01l8.73-5.05 M12 22.08V12",
+    color: "text-purple-400",
+  },
+  {
+    name: "Spring Boot",
+    icon: "M11 20A7 7 0 0 1 4 13c0-3.87 3.13-7 7-7h5v5a7 7 0 0 1-7 7z M11 13l4-4",
+    color: "text-green-500",
+  },
+  {
+    name: "ChromaDB & SQL",
+    icon: "M21 12c0 1.66-4 3-9 3s-9-1.34-9-3 M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5 M21 5c0 1.66-4 3-9 3S3 6.66 3 5s4-3 9-3 9 1.34 9 3z",
+    color: "text-blue-300",
+  },
+  {
+    name: "Docker & Cloud",
+    icon: "M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z",
+    color: "text-sky-400",
+  },
+  {
+    name: "Electron",
+    icon: "M2 7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7z M12 19v3 M8 22h8",
+    color: "text-indigo-300",
+  },
+];
+
 const projects = [
   {
     title: "Veris Engine",
@@ -484,6 +532,14 @@ const Portfolio: React.FC = () => {
               100% { transform: translate(0); text-shadow: 0 0 0 transparent; }
             }
 
+                        /* --- NEW: Floating Animation for Skills --- */
+            @keyframes floating {
+              0% { transform: translateY(0px); }
+              50% { transform: translateY(-10px); }
+              100% { transform: translateY(0px); }
+            }
+            .animate-floating { animation: floating 4s ease-in-out infinite; }
+
             /* --- Custom Dark Scrollbar for Chat Box --- */
             .custom-scrollbar::-webkit-scrollbar { width: 6px; }
             .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
@@ -693,6 +749,50 @@ const Portfolio: React.FC = () => {
                   </span>
                 ))}
               </div>
+            </div>
+          </section>
+
+          {/* --- NEW: Skills Section --- */}
+          <section className="max-w-5xl mx-auto px-6 py-12 animate-fade-in delay-100">
+            <div className="flex items-center gap-3 mb-8">
+              <Icon
+                d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
+                className="text-blue-500"
+              />
+              <h2 className="text-2xl font-bold text-white tracking-wide">
+                Technical Arsenal
+              </h2>
+            </div>
+
+            {/* The wrapper div handles the CSS float so it doesn't conflict with JS Magnetic transform */}
+            <div className="flex flex-wrap gap-4 justify-start">
+              {skillsList.map((skill, i) => (
+                <div
+                  key={i}
+                  className="animate-floating"
+                  style={{ animationDelay: `${i * 0.15}s` }}
+                >
+                  <div
+                    className="bg-gray-900/40 backdrop-blur-md px-5 py-3 rounded-full flex items-center gap-3 border border-gray-800 hover:border-blue-500 hover:bg-gray-800/80 transition-all cursor-default shadow-lg shadow-black/50"
+                    onMouseMove={(e) => {
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      const x = e.clientX - rect.left - rect.width / 2;
+                      const y = e.clientY - rect.top - rect.height / 2;
+                      e.currentTarget.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px) scale(1.05)`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = `translate(0px, 0px) scale(1)`;
+                    }}
+                  >
+                    <span className={`${skill.color}`}>
+                      <Icon d={skill.icon} size={18} />
+                    </span>
+                    <span className="text-gray-200 font-mono text-sm tracking-tight">
+                      {skill.name}
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
 
