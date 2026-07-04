@@ -205,6 +205,8 @@ const projects = [
       "Implemented a 'Document Grader' agent (LLM-as-a-judge) that validates context relevance before generation, halting processes if hallucinations are detected.",
       "Developed a Hybrid Retrieval system combining ChromaDB (semantic vector search) with BM25 (lexical search) for high-precision document recall.",
       "Ensured multi-tenant data security by engineering session-strict isolation, dynamically creating independent vector indices per user session.",
+      "Automated Evaluation Pipeline: Implemented a background-task-driven suite using Synthetic Dataset Generation.",
+      "Metrics Dashboard: Live visualization of Accuracy/Faithfulness scores (1-5 scale) for rapid debugging.",
       "Packaged the React web interface into a standalone, cross-platform desktop application using Electron for native OS integration.",
     ],
     tags: [
@@ -220,6 +222,7 @@ const projects = [
     demo: "https://veris-engine-8s83ow9t6-manojkumars-projects-3a02fe42.vercel.app/",
     images: [
       "/Landing-page.png",
+      "/Evaluation Dashboard.png",
       "/AI response bubble.png",
       "/Connversation.png",
       "/Preview mode.png",
