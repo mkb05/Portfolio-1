@@ -661,7 +661,7 @@ export default function SketchPortfolio() {
       <CustomStyles />
 
       {/* Header Info (Visible purely as doc title to set the scene) */}
-      <div className="w-full max-w-sm mx-auto mb-6 flex flex-col items-center text-slate-600 text-sm bg-white/90 backdrop-blur-sm border-2 border-slate-300 p-3 rounded-xl shadow-md z-20 relative overflow-hidden">
+      <div className="w-full max-w-sm mx-auto mb-6 mt-20 flex flex-col items-center text-slate-600 text-sm bg-white/90 backdrop-blur-sm border-2 border-slate-300 p-3 rounded-xl shadow-md z-20 relative overflow-hidden">
         <span className="font-bold flex items-center gap-2 text-slate-800 text-md w-full truncate px-2">
           <Icon d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" size={16} />
           <span className="truncate">
