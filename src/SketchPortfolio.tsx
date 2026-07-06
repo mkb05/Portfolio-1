@@ -661,13 +661,15 @@ export default function SketchPortfolio() {
       <CustomStyles />
 
       {/* Header Info (Visible purely as doc title to set the scene) */}
-      <div className="max-w-7xl mx-auto mb-6 flex flex-col items-center lg:items-start text-slate-600 text-sm bg-white/90 backdrop-blur-sm border-2 border-slate-300 p-4 w-fit rounded-xl shadow-md z-20 relative">
-        <span className="font-bold flex items-center gap-2 text-slate-800 text-lg">
-          <Icon d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" size={20} />
-          manoj_portfolio_architecture_final.excalidraw
+      <div className="w-full max-w-sm mx-auto mb-6 flex flex-col items-center text-slate-600 text-sm bg-white/90 backdrop-blur-sm border-2 border-slate-300 p-3 rounded-xl shadow-md z-20 relative overflow-hidden">
+        <span className="font-bold flex items-center gap-2 text-slate-800 text-md w-full truncate px-2">
+          <Icon d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" size={16} />
+          <span className="truncate">
+            manoj_portfolio_architecture_final.excalidraw
+          </span>
         </span>
-        <span className="text-sm mt-1 ml-7 text-slate-500 flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+        <span className="text-xs mt-1 text-slate-500 flex items-center gap-2 w-full justify-center">
+          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0"></span>
           Live Environment: Click nodes to inspect modules
         </span>
       </div>
