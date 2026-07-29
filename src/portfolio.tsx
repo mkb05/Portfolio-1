@@ -225,6 +225,7 @@ const projects = [
       "/Movie_Magic/movie-trailer-01.png",
       "/Movie_Magic/movie-trailer-overview-01.png",
       "/Movie_Magic/search-result-01.png",
+      "/Movie_Magic/training-01.png",
     ],
   },
   {
