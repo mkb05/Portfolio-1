@@ -197,6 +197,37 @@ const skillsList = [
 
 const projects = [
   {
+    title: "Movie Magic",
+    description:
+      "An end-to-end AI recommendation system combining custom PyTorch Neural Collaborative Filtering with Qdrant vector retrieval and Groq LLM inference.",
+    details: [
+      "Engineered a custom Two-Tower Neural Collaborative Filtering model in PyTorch from scratch, trained on binarized MovieLens interactions.",
+      "Integrated Groq (llama-3.1-8b-instant) for lightning-fast natural language semantic intent parsing and vibe-based search interpretation.",
+      "Built a high-performance vector retrieval pipeline leveraging Qdrant and HNSW indexing for sub-millisecond similarity search.",
+      "Orchestrated an asynchronous FastAPI backend to handle real-time user profile adaptation and recommendation scoring.",
+      "Designed a fluid, animated Next.js and Tailwind CSS frontend providing a Netflix-style cinematic browsing experience.",
+    ],
+    tags: [
+      "PyTorch",
+      "FastAPI",
+      "Groq",
+      "Qdrant",
+      "Next.js",
+      "Tailwind CSS",
+      "Python",
+    ],
+    github: "https://github.com/mkb05/vibe-aware-recommender",
+    demo: "https://vibe-aware-recommender.vercel.app/",
+    images: [
+      "/Movie_Magic/home-01.png",
+      "/Movie_Magic/category-01.png",
+      "/Movie_Magic/movie-info-01.png",
+      "/Movie_Magic/movie-trailer-01.png",
+      "/Movie_Magic/movie-trailer-overview-01.png",
+      "/Movie_Magic/search-result-01.png",
+    ],
+  },
+  {
     title: "Veris Engine",
     description:
       "A production-grade Corrective Retrieval-Augmented Generation (CRAG) system designed to eliminate LLM hallucinations in enterprise environments.",
