@@ -159,7 +159,12 @@ const skillsList = [
     color: "text-emerald-400",
   },
   {
-    name: "React & Angular",
+    name: "PyTorch & Groq AI",
+    icon: "M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z M12 6a6 6 0 1 0 6 6 6 6 0 0 0-6-6z",
+    color: "text-orange-400",
+  },
+  {
+    name: "React & Next.js",
     icon: "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5",
     color: "text-cyan-400",
   },
@@ -179,7 +184,7 @@ const skillsList = [
     color: "text-green-500",
   },
   {
-    name: "ChromaDB & SQL",
+    name: "Pinecone & ChromaDB",
     icon: "M21 12c0 1.66-4 3-9 3s-9-1.34-9-3 M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5 M21 5c0 1.66-4 3-9 3S3 6.66 3 5s4-3 9-3 9 1.34 9 3z",
     color: "text-blue-300",
   },
@@ -189,13 +194,36 @@ const skillsList = [
     color: "text-sky-400",
   },
   {
-    name: "Electron",
+    name: "Electron & Angular",
     icon: "M2 7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7z M12 19v3 M8 22h8",
     color: "text-indigo-300",
   },
 ];
 
 const projects = [
+  {
+    title: "Narrative POV & GraphRAG Engine",
+    description:
+      "Engineered a hybrid RAG architecture combining metadata-filtered vector retrieval for zero-token raw text rendering with progressive Redis caching for sequential narrative context.",
+    details: [
+      "Engineered a hybrid RAG architecture combining metadata-filtered vector retrieval (Pinecone) for zero-token raw text rendering with progressive Redis caching for sequential narrative context.",
+      "Designed an on-demand lazy ingestion and vectorization pipeline to programmatically fetch and index classic literature from Project Gutenberg directly into cloud stores on user request.",
+      "Optimized cloud deployment constraints by offloading embedding computations and leveraging stateless API routing to maintain a minimal memory footprint and prevent container out-of-memory crashes on free-tier hosting.",
+      "Orchestrated an asynchronous FastAPI backend integrated with Groq LLM endpoints to handle dynamic entity extraction and nuanced multi-perspective character text rewriting.",
+      "Designed a responsive, vintage-newspaper-themed Next.js and Tailwind CSS frontend providing interactive chapter navigation, dynamic perspective selection, and GraphRAG-powered narrative relationship insights.",
+    ],
+    tags: [
+      "Python",
+      "FastAPI",
+      "Next.js",
+      "Pinecone",
+      "Upstash Redis",
+      "Groq API",
+    ],
+    github: "https://github.com/mkb05/narrative-pov-rag",
+    demo: "https://focalpoint-puce.vercel.app/",
+    images: [],
+  },
   {
     title: "Movie Magic",
     description:

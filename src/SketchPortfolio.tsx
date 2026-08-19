@@ -2,35 +2,82 @@ import React, { useState, useEffect } from "react";
 
 // --- DATA ---
 const skillsList = [
-  { name: "Python", icon: "M16 18l6-6-6-6M8 6l-6 6 6 6" },
+  {
+    name: "Python",
+    icon: "M16 18l6-6-6-6M8 6l-6 6 6 6",
+    color: "text-blue-400",
+  },
   {
     name: "LangGraph & RAG",
-    icon: "M18 8A3 3 0 1 0 18 2a3 3 0 0 0 0 6zm-12 7A3 3 0 1 0 6 9a3 3 0 0 0 0 6zm12 7A3 3 0 1 0 18 16a3 3 0 0 0 0 6z",
+    icon: "M18 8A3 3 0 1 0 18 2a3 3 0 0 0 0 6zm-12 7A3 3 0 1 0 6 9a3 3 0 0 0 0 6zm12 7A3 3 0 1 0 18 16a3 3 0 0 0 0 6z M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98",
+    color: "text-emerald-400",
   },
   {
-    name: "React & Angular",
-    icon: "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5",
+    name: "PyTorch & Groq AI",
+    icon: "M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z M12 6a6 6 0 1 0 6 6 6 6 0 0 0-6-6z",
+    color: "text-orange-400",
   },
-  { name: "FastAPI & Node.js", icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" },
+  {
+    name: "React & Next.js",
+    icon: "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5",
+    color: "text-cyan-400",
+  },
+  {
+    name: "FastAPI & Node.js",
+    icon: "M13 2L3 14h9l-1 8 10-12h-9l1-8z",
+    color: "text-yellow-400",
+  },
   {
     name: "Kafka & Redis",
-    icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z",
+    icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z M3.27 6.96L12 12.01l8.73-5.05 M12 22.08V12",
+    color: "text-purple-400",
   },
   {
     name: "Spring Boot",
     icon: "M11 20A7 7 0 0 1 4 13c0-3.87 3.13-7 7-7h5v5a7 7 0 0 1-7 7z M11 13l4-4",
+    color: "text-green-500",
   },
   {
-    name: "ChromaDB & SQL",
+    name: "Pinecone & ChromaDB",
     icon: "M21 12c0 1.66-4 3-9 3s-9-1.34-9-3 M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5 M21 5c0 1.66-4 3-9 3S3 6.66 3 5s4-3 9-3 9 1.34 9 3z",
+    color: "text-blue-300",
   },
   {
     name: "Docker & Cloud",
     icon: "M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z",
+    color: "text-sky-400",
+  },
+  {
+    name: "Electron & Angular",
+    icon: "M2 7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7z M12 19v3 M8 22h8",
+    color: "text-indigo-300",
   },
 ];
 
 const projects = [
+  {
+    title: "Narrative POV & GraphRAG Engine",
+    description:
+      "Engineered a hybrid RAG architecture combining metadata-filtered vector retrieval for zero-token raw text rendering with progressive Redis caching for sequential narrative context.",
+    details: [
+      "Engineered a hybrid RAG architecture combining metadata-filtered vector retrieval (Pinecone) for zero-token raw text rendering with progressive Redis caching for sequential narrative context.",
+      "Designed an on-demand lazy ingestion and vectorization pipeline to programmatically fetch and index classic literature from Project Gutenberg directly into cloud stores on user request.",
+      "Optimized cloud deployment constraints by offloading embedding computations and leveraging stateless API routing to maintain a minimal memory footprint and prevent container out-of-memory crashes on free-tier hosting.",
+      "Orchestrated an asynchronous FastAPI backend integrated with Groq LLM endpoints to handle dynamic entity extraction and nuanced multi-perspective character text rewriting.",
+      "Designed a responsive, vintage-newspaper-themed Next.js and Tailwind CSS frontend providing interactive chapter navigation, dynamic perspective selection, and GraphRAG-powered narrative relationship insights.",
+    ],
+    tags: [
+      "Python",
+      "FastAPI",
+      "Next.js",
+      "Pinecone",
+      "Upstash Redis",
+      "Groq API",
+    ],
+    github: "https://github.com/mkb05/narrative-pov-rag",
+    demo: "https://focalpoint-puce.vercel.app/",
+    images: [],
+  },
   {
     title: "Movie Magic",
     description:
@@ -687,7 +734,7 @@ export default function SketchPortfolio() {
 
   return (
     <div
-      className="relative min-h-screen bg-grid-pattern text-slate-800 font-sketch p-4 md:p-8 overflow-x-hidden selection:bg-teal-200 selection:text-teal-900 transition-all duration-300"
+      className="relative min-h-screen bg-grid-pattern text-slate-800 font-sketch p-4 md:p-8 overflow-hidden selection:bg-teal-200 selection:text-teal-900 transition-all duration-300"
       onMouseMove={handleMouseMove}
     >
       <CustomStyles />
@@ -865,7 +912,7 @@ export default function SketchPortfolio() {
 
           {/* 5. Background Tasks (Bottom Right) */}
           <div
-            className="sketch-box-dashed border-slate-600 bg-white p-6 lg:absolute lg:w-[30%] lg:h-[30%] lg:left-[50%] lg:top-[95%] flex flex-col cursor-pointer shadow-lg group hover:bg-slate-50 animate-float"
+            className="sketch-box-dashed border-slate-600 bg-white p-6 lg:absolute lg:w-[30%] lg:h-[18%] lg:left-[50%] lg:top-[95%] flex flex-col cursor-pointer shadow-lg group hover:bg-slate-50 animate-float"
             style={{ animationDelay: "0.8s" }}
             onClick={() => setActiveModal("education")}
           >
