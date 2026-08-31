@@ -4,7 +4,7 @@ import Portfolio from "./portfolio";
 
 // --- ORCHESTRATOR COMPONENT ---
 export default function App() {
-  const [theme, setTheme] = useState<"sketch" | "neural">("neural");
+  const [theme, setTheme] = useState<"sketch" | "neural">("sketch");
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
