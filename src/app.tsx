@@ -1219,25 +1219,6 @@ export default function Portfolio() {
     },
   ];
 
-  const filteredSentences = useMemo(() => {
-    return sampleCompactorContext.map((s) => ({
-      ...s,
-      survives: s.score >= compactorThreshold,
-    }));
-  }, [compactorThreshold]);
-
-  const totalChars = useMemo(
-    () => sampleCompactorContext.reduce((acc, s) => acc + s.sentence.length, 0),
-    [],
-  );
-  const survivingChars = useMemo(
-    () =>
-      filteredSentences
-        .filter((s) => s.survives)
-        .reduce((acc, s) => acc + s.sentence.length, 0),
-    [filteredSentences],
-  );
-
   const runLiveCompactor = async (
     targetThreshold: number,
     queryText?: string,
@@ -1283,7 +1264,7 @@ export default function Portfolio() {
       const compacted =
         data.compacted_context || data.compacted || data.result || "";
       const origLen = rawToSend.length;
-      const compLen = compacted.length || survivingChars;
+      const compLen = compacted.length;
       const redPct =
         origLen > 0
           ? Math.round((1 - compLen / origLen) * 100)
