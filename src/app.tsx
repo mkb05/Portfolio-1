@@ -1237,10 +1237,6 @@ export default function Portfolio() {
         .reduce((acc, s) => acc + s.sentence.length, 0),
     [filteredSentences],
   );
-  const compressionRatio = useMemo(
-    () => Math.round((1 - survivingChars / totalChars) * 100),
-    [survivingChars, totalChars],
-  );
 
   const runLiveCompactor = async (
     targetThreshold: number,
